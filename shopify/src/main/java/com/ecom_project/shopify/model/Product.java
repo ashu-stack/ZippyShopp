@@ -41,5 +41,8 @@ public class Product {
     )
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Orders orders;
 
 }
