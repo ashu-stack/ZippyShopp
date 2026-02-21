@@ -32,4 +32,8 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<Orders> ordersList;
+
+
+    @OneToMany(mappedBy = "customer")
+    private List<Payment> payments;
 }
