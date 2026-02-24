@@ -9,9 +9,6 @@ import java.util.List;
 
 @Repository
 public interface OrderRepo extends JpaRepository<Orders,Integer> {
-    List<Orders> findOrdersByCustomerId(Integer cId);
-
-    List<Orders> findOrdersBeforeDate(Date date);
 
 
 }
