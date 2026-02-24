@@ -3,6 +3,8 @@ package com.ecom_project.shopify.controller;
 import com.ecom_project.shopify.model.Payment;
 import com.ecom_project.shopify.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,26 +17,35 @@ public class PaymentController {
 
     //getAll
     @GetMapping("/payment/getAll")
-    public List<Payment> getPayments(){
-        return paymentService.getAllPayments();
+    public ResponseEntity<List<Payment>> getPayments(){
+        List<Payment> list = paymentService.getAllPayments();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     //get by id
     @GetMapping("/payment/getById/{id}")
-    public Payment getPaymentById(@PathVariable Integer id){
-        return paymentService.getPaymentById(id);
+    public ResponseEntity<Payment> getPaymentById(@PathVariable Integer id){
+        Payment payment = paymentService.getPaymentById(id);
+        if(payment != null){
+            return new ResponseEntity<>(payment, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // put
     @PostMapping("/payment/addPayment")
-    public void addPayment(@RequestBody Payment payment){
+    public ResponseEntity addPayment(@RequestBody Payment payment){
         paymentService.addPayment(payment);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
 
     // delete
     @DeleteMapping("/payment/delete/{id}")
-    public void deletePaymentById(@PathVariable Integer id){
+    public ResponseEntity deletePaymentById(@PathVariable Integer id){
         paymentService.deletePayment(id);
+        return new ResponseEntity(HttpStatus.GONE);
     }
 }
