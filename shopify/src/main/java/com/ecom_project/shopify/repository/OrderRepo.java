@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepo extends JpaRepository<Orders,Integer> {
+    List<Orders> findByCustId(Integer id);
 
 
 }
