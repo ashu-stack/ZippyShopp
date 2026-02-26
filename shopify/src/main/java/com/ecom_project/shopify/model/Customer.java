@@ -30,10 +30,10 @@ public class Customer {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.REMOVE)
     private List<Orders> ordersList;
 
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.REMOVE)
     private List<Payment> payments;
 }

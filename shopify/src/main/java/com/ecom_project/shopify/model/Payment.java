@@ -25,7 +25,7 @@ public class Payment {
     @Column(nullable = false)
     private Integer amount;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "customer_id") //Owner of Payment-Customer rel => has a FK => no sense w/o customer
     private Customer customer;
 }
