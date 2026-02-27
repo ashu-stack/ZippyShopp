@@ -6,10 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface OrderRepo extends JpaRepository<Orders,Integer> {
-    List<Orders> findByCustId(Integer id);
+    List<Orders> findByCustId(UUID id);
 
 
 }

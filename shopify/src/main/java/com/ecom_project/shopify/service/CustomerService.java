@@ -19,11 +19,15 @@ import java.util.UUID;
 public class CustomerService {
     @Autowired
     CustomerRepo customerRepo;
+
+    @Autowired
     OrderRepo orderRepo;
+
+    @Autowired
     PaymentRepo paymentRepo;
 
     @Transactional
-    public void makeOrder(List<Product> list, UUID custId, String modeOfPayment){
+    public Orders makeOrder(List<Product> list, UUID custId, String modeOfPayment){
 
         int amount = 0;
         for(Product product : list){
@@ -35,6 +39,7 @@ public class CustomerService {
 
         Payment payment = Payment.builder().type(modeOfPayment).customer(customer).amount(amount).build();
         paymentRepo.save(payment);
+        return orders;
     }
 
     public List<Customer> getAllCustomers() {
