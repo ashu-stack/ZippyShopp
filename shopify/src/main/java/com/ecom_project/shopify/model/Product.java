@@ -29,18 +29,16 @@ public class Product {
             nullable = false
     )
     private String name;
-    @Column(
-            nullable = false
-    )
+    @Column(nullable = false)
     private Integer price;
-    @Column(
-            nullable = false
-    )
+
+    @Column(nullable = false)
     private boolean available;
 
-    @Column(
-            length = 100
-    )
+    @Column(nullable = false)
+    private Integer stock;
+
+    @Column(length = 100)
     private String description;
 
     @ManyToOne
