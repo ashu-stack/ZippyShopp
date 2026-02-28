@@ -1,9 +1,6 @@
 package com.ecom_project.shopify.service;
 
-import com.ecom_project.shopify.model.Customer;
-import com.ecom_project.shopify.model.Orders;
-import com.ecom_project.shopify.model.Payment;
-import com.ecom_project.shopify.model.Product;
+import com.ecom_project.shopify.model.*;
 import com.ecom_project.shopify.repository.CustomerRepo;
 import com.ecom_project.shopify.repository.OrderRepo;
 import com.ecom_project.shopify.repository.PaymentRepo;
@@ -27,12 +24,14 @@ public class CustomerService {
     PaymentRepo paymentRepo;
 
     @Transactional
-    public Orders makeOrder(List<Product> list, UUID custId, String modeOfPayment){
+    public Orders makeOrder(Cart cart){
 
         int amount = 0;
-        for(Product product : list){
+        for(Product product : cart.getProductList()){
             amount = amount + product.getPrice();
         }
+        UUID custId = cart.getCustomerId();
+        String modeOfPayment = cart.getModeOfPayment();
         Customer customer = (Customer) customerRepo.findById(custId).orElse(null);
         Orders orders = Orders.builder().custId(custId).amount(amount).orderDate(LocalDate.now()).customer(customer).build();
         orderRepo.save(orders);
@@ -54,6 +53,7 @@ public class CustomerService {
 
     public void addCustomer(Customer customer) {
         customerRepo.save(customer);
+
     }
 
 
