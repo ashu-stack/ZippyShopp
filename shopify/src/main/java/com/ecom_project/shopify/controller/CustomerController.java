@@ -1,6 +1,7 @@
 package com.ecom_project.shopify.controller;
 
 import com.ecom_project.shopify.model.Customer;
+import com.ecom_project.shopify.repository.CustomerRepo;
 import com.ecom_project.shopify.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,11 @@ import java.util.UUID;
 public class CustomerController {
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    CustomerRepo customerRepo;
+
+
 
     //getAll
     @GetMapping("/customer/getAll")
