@@ -20,6 +20,7 @@ public class Cart {
     private Integer id;
     @Column(nullable = false)
     private UUID customerId;
+
     private List<Product> productList;
     @Column(nullable = false)
     private String modeOfPayment;
