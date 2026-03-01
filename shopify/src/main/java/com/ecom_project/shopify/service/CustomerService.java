@@ -23,6 +23,11 @@ public class CustomerService {
     @Autowired
     PaymentRepo paymentRepo;
 
+    @Autowired
+    CartService cartService;
+
+
+
     @Transactional
     public Orders makeOrder(Cart cart){
 
@@ -40,6 +45,10 @@ public class CustomerService {
         paymentRepo.save(payment);
         return orders;
     }
+
+
+
+
 
 
 
