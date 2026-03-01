@@ -21,7 +21,11 @@ public class Cart {
     @Column(nullable = false)
     private UUID customerId;
 
+    @OneToMany
     private List<Product> productList;
     @Column(nullable = false)
     private String modeOfPayment;
+
+    @OneToOne(mappedBy = "cart")
+    private Customer customer;
 }

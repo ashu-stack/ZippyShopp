@@ -36,4 +36,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer",cascade = CascadeType.REMOVE)
     private List<Payment> payments;
+
+    @OneToOne
+    private Cart cart;
 }
