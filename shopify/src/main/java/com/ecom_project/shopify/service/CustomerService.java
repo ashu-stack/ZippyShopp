@@ -1,6 +1,7 @@
 package com.ecom_project.shopify.service;
 
 import com.ecom_project.shopify.model.*;
+import com.ecom_project.shopify.repository.CartRepo;
 import com.ecom_project.shopify.repository.CustomerRepo;
 import com.ecom_project.shopify.repository.OrderRepo;
 import com.ecom_project.shopify.repository.PaymentRepo;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +18,9 @@ import java.util.UUID;
 public class CustomerService {
     @Autowired
     CustomerRepo customerRepo;
+
+    @Autowired
+    CartRepo cartRepo;
 
     @Autowired
     OrderRepo orderRepo;
@@ -47,11 +52,6 @@ public class CustomerService {
     }
 
 
-
-
-
-
-
     public List<Customer> getAllCustomers() {
        return customerRepo.findAll();
     }
@@ -62,6 +62,10 @@ public class CustomerService {
 
     public void addCustomer(Customer customer) {
         customerRepo.save(customer);
+
+        Customer customer1 = customerRepo.findByEmail(customer.getEmail());
+        Cart cart = Cart.builder().customerId(customer1.getId()).modeOfPayment("COD").productList(new ArrayList<>()).build();
+        cartService.createCartForCustomer(cart);
 
     }
 

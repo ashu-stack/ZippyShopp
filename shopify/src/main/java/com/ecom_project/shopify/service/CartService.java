@@ -3,7 +3,9 @@ package com.ecom_project.shopify.service;
 import com.ecom_project.shopify.model.Cart;
 import com.ecom_project.shopify.model.Product;
 import com.ecom_project.shopify.repository.CartRepo;
+import com.ecom_project.shopify.repository.ProductRepo;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +14,18 @@ import java.util.UUID;
 @Service
 public class CartService {
 
+    @Autowired
     CartRepo cartRepo;
+
+    @Autowired
+    ProductRepo productRepo;
 
     public Cart getCartByCustomerId(UUID custId) {
         return cartRepo.findByCustomerId(custId);
+    }
+
+    public void createCartForCustomer(Cart cart){
+        cartRepo.save(cart);
     }
 
 
@@ -27,6 +37,7 @@ public class CartService {
 
         int newCount = product.getStock();
         product.setStock(newCount-1);
+        productRepo.save(product);
         return cart;
     }
 
