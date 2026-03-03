@@ -24,10 +24,9 @@ public class CartController {
     }
 
     // add item
-    @PostMapping("/cart/addItem/{id}")
+    @PostMapping("/cart/addItem/{custId}")
     public Cart addItem(@RequestBody Product product, @PathVariable UUID custId){
-        cart = cartService.getCartByCustomerId(custId);
-        cart.getProductList().add(product);
+        cart = cartService.addToCart(product,custId);
         return cart;
     }
 
@@ -35,8 +34,9 @@ public class CartController {
     // remove item
     @DeleteMapping("/cart/removeItem/{id}")
     public Cart removeItem(@RequestBody Product product, @PathVariable UUID custId){
-        cart = cartService.getCartByCustomerId(custId);
-        cart.getProductList().remove(product);
+
+        cart = cartService.removeFromCart(product,custId);
+
         return cart;
     }
 

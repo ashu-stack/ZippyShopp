@@ -18,7 +18,7 @@ public class CartService {
     CartRepo cartRepo;
 
     @Autowired
-    ProductRepo productRepo;
+    ProductService productService;
 
     public Cart getCartByCustomerId(UUID custId) {
         return cartRepo.findByCustomerId(custId);
@@ -36,8 +36,11 @@ public class CartService {
         cart.getProductList().add(product);
 
         int newCount = product.getStock();
-        product.setStock(newCount-1);
-        productRepo.save(product);
+        newCount--;
+        Product product1 = productService.getProdByName(product.getName());
+        product1.setStock(newCount);
+
+       // productRepo.save(product);
         return cart;
     }
 
