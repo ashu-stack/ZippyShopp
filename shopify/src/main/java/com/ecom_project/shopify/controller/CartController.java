@@ -24,18 +24,18 @@ public class CartController {
     }
 
     // add item
-    @PostMapping("/cart/addItem/{custId}")
-    public Cart addItem(@RequestBody Product product, @PathVariable UUID custId){
-        cart = cartService.addToCart(product,custId);
+    @PostMapping("/cart/addItem/{productId}/{custId}")
+    public Cart addItem(@PathVariable Integer productId, @PathVariable UUID custId){
+        cart = cartService.addToCart(productId,custId);
         return cart;
     }
 
 
     // remove item
-    @DeleteMapping("/cart/removeItem/{id}")
-    public Cart removeItem(@RequestBody Product product, @PathVariable UUID custId){
+    @DeleteMapping("/cart/removeItem/{productId}/{custId}")
+    public Cart removeItem(@PathVariable Integer productId, @PathVariable UUID custId){
 
-        cart = cartService.removeFromCart(product,custId);
+        cart = cartService.removeFromCart(productId,custId);
 
         return cart;
     }

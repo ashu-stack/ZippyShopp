@@ -30,28 +30,26 @@ public class CartService {
 
 
     @Transactional
-    public Cart addToCart(Product product, UUID custId){
+    public Cart addToCart(Integer productId, UUID custId){
 
         Cart cart = getCartByCustomerId(custId);
+        Product product = productService.getProdById(productId);
+
+        if (product.getStock() <= 0) {
+            throw new RuntimeException("Out of stock");
+        }
         cart.getProductList().add(product);
-
-        int newCount = product.getStock();
-        newCount--;
-        Product product1 = productService.getProdByName(product.getName());
-        product1.setStock(newCount);
-
-       // productRepo.save(product);
+        product.setStock(product.getStock() - 1);
         return cart;
     }
 
     @Transactional
-    public Cart removeFromCart(Product product, UUID custId){
-
+    public Cart removeFromCart(Integer productId, UUID custId){
         Cart cart = getCartByCustomerId(custId);
+        Product product = productService.getProdById(productId);
         cart.getProductList().remove(product);
+        product.setStock(product.getStock() + 1);
 
-        int newCount = product.getStock();
-        product.setStock(newCount+1);
         return cart;
     }
 }
