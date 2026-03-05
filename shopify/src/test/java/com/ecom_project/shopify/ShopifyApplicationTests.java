@@ -40,7 +40,7 @@ class ShopifyApplicationTests {
 	void testAddToCart(){
 		Product product = Product.builder().name("Laptop").price(50000).available(true).stock(10).build();
 		UUID custId = UUID.fromString("dae9facc-7f5f-4c4a-9c3e-9627e39024e8");
-		Cart cart = cartService.addToCart(product,custId);
+		Cart cart = cartService.addToCart(1,custId);
 		System.out.println(cart);
 
 	}
@@ -49,7 +49,7 @@ class ShopifyApplicationTests {
 	void testRemoveFromCart(){
 		Product product = Product.builder().name("Laptop").price(50000).available(true).stock(10).build();
 		UUID custId = UUID.fromString("dae9facc-7f5f-4c4a-9c3e-9627e39024e8");
-		Cart cart = cartService.removeFromCart(product,custId);
+		Cart cart = cartService.removeFromCart(5,custId);
 		System.out.println(cart);
 	}
 
