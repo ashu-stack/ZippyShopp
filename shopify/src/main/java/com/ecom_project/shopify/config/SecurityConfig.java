@@ -32,8 +32,8 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        UserDetails user1 = User.withUsername("user").password("pass").roles("USER").build();
-        UserDetails user2 = User.withUsername("admin").password("passAd").roles("ADMIN").build();
+        UserDetails user1 = User.withUsername("user").password(passwordEncoder.encode("pass")).roles("USER").build();
+        UserDetails user2 = User.withUsername("admin").password(passwordEncoder.encode("passAd")).roles("ADMIN").build();
 
         return new InMemoryUserDetailsManager(user1,user2);
 
