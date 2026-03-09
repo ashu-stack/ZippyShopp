@@ -16,14 +16,14 @@ public class PaymentController {
     PaymentService paymentService;
 
     //getAll
-    @GetMapping("/payment/getAll")
+    @GetMapping("admin/payment/getAll")
     public ResponseEntity<List<Payment>> getPayments(){
         List<Payment> list = paymentService.getAllPayments();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     //get by id
-    @GetMapping("/payment/getById/{id}")
+    @GetMapping("admin/payment/getById/{id}")
     public ResponseEntity<Payment> getPaymentById(@PathVariable Integer id){
         Payment payment = paymentService.getPaymentById(id);
         if(payment != null){
@@ -35,7 +35,7 @@ public class PaymentController {
     }
 
     // put
-    @PostMapping("/payment/addPayment")
+    @PostMapping("admin/payment/addPayment")
     public ResponseEntity addPayment(@RequestBody Payment payment){
         paymentService.addPayment(payment);
         return new ResponseEntity(HttpStatus.CREATED);
@@ -43,7 +43,7 @@ public class PaymentController {
 
 
     // delete
-    @DeleteMapping("/payment/delete/{id}")
+    @DeleteMapping("admin/payment/delete/{id}")
     public ResponseEntity deletePaymentById(@PathVariable Integer id){
         paymentService.deletePayment(id);
         return new ResponseEntity(HttpStatus.GONE);

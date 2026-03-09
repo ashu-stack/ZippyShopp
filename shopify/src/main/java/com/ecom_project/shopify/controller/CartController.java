@@ -17,14 +17,14 @@ public class CartController {
 
     private Cart cart;
 
-    @GetMapping("/cart/showItems")
+    @GetMapping("user/cart/showItems")
     public Cart showCart(UUID custId){
         cart = cartService.getCartByCustomerId(custId);
         return cart;
     }
 
     // add item
-    @PostMapping("/cart/addItem/{productId}/{custId}")
+    @PostMapping("user/cart/addItem/{productId}/{custId}")
     public Cart addItem(@PathVariable Integer productId, @PathVariable UUID custId){
         cart = cartService.addToCart(productId,custId);
         return cart;
@@ -32,7 +32,7 @@ public class CartController {
 
 
     // remove item
-    @DeleteMapping("/cart/removeItem/{productId}/{custId}")
+    @DeleteMapping("user/cart/removeItem/{productId}/{custId}")
     public Cart removeItem(@PathVariable Integer productId, @PathVariable UUID custId){
 
         cart = cartService.removeFromCart(productId,custId);

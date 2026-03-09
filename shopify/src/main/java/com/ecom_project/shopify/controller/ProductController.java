@@ -18,19 +18,19 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
-    @RequestMapping("/")
+    @RequestMapping("user/")
     public String greet(){
         return "Welcome to Shopify";
     }
 
-    @GetMapping("/product")
+    @GetMapping("user/product")
     public ResponseEntity<List<Product>> getAllProducts(){
         List<Product> list =   productService.getAllProd();
 
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("user/product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable int id){
         Product product =  productService.getProdById(id);
         if(product != null){
@@ -41,13 +41,13 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/product")
+    @PostMapping("admin/product")
     public ResponseEntity addProduct(@RequestBody Product product){
         productService.addNewProd(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("admin/product/{id}")
     public ResponseEntity deleteProduct(@PathVariable int id){
         productService.deleteProdById(id);
         return new ResponseEntity<>(HttpStatus.GONE);

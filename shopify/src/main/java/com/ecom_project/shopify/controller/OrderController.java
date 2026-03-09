@@ -16,14 +16,14 @@ public class OrderController {
     OrderService orderService;
 
     //getAll
-    @GetMapping("/orders/getAll")
+    @GetMapping("admin/orders/getAll")
     public ResponseEntity<List<Orders>> getOrders(){
         List<Orders> list = orderService.getAllOrders();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     //get by id
-    @GetMapping("/orders/getById/{id}")
+    @GetMapping("admin/orders/getById/{id}")
     public ResponseEntity<Orders> getOrderById(@PathVariable Integer id){
         Orders orders =  orderService.getOrdersById(id);
         if(orders != null){
@@ -35,7 +35,7 @@ public class OrderController {
     }
 
     // put
-    @PostMapping("/orders/addOrder")
+    @PostMapping("user/orders/addOrder")
     public ResponseEntity addOrder(@RequestBody Orders orders){
         orderService.addOrder(orders);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -43,7 +43,7 @@ public class OrderController {
 
     // delete
 
-    @DeleteMapping("/orders/deleteOrder/{id}")
+    @DeleteMapping("user/orders/deleteOrder/{id}")
     public ResponseEntity delete(@PathVariable Integer id){
         orderService.deleteOrder(id);
         return new ResponseEntity<>(HttpStatus.GONE);
