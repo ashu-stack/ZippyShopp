@@ -26,8 +26,8 @@ public class SecurityConfig {
 
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/product/**").permitAll()
-                        .requestMatchers("/cart/**").hasRole("USER"))
+                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN"))
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults()).build();
     }
