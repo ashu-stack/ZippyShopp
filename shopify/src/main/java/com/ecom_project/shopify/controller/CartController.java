@@ -4,6 +4,9 @@ import com.ecom_project.shopify.model.Cart;
 import com.ecom_project.shopify.model.Product;
 import com.ecom_project.shopify.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +20,41 @@ public class CartController {
 
     private Cart cart;
 
-    @GetMapping("user/cart/showItems")
-    public Cart showCart(UUID custId){
+    @GetMapping("user/cart/showItems/{custId}")
+    public ResponseEntity<Cart> showCart(@PathVariable UUID custId){
         cart = cartService.getCartByCustomerId(custId);
-        return cart;
+        if(cart != null){
+            return new ResponseEntity<>(cart, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     // add item
     @PostMapping("user/cart/addItem/{productId}/{custId}")
-    public Cart addItem(@PathVariable Integer productId, @PathVariable UUID custId){
+    public ResponseEntity<Cart> addItem(@PathVariable Integer productId, @PathVariable UUID custId){
         cart = cartService.addToCart(productId,custId);
-        return cart;
+        if(cart != null){
+            return new ResponseEntity<>(cart, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
     // remove item
     @DeleteMapping("user/cart/removeItem/{productId}/{custId}")
-    public Cart removeItem(@PathVariable Integer productId, @PathVariable UUID custId){
-
+    public ResponseEntity<Cart> removeItem(@PathVariable Integer productId, @PathVariable UUID custId){
         cart = cartService.removeFromCart(productId,custId);
-
-        return cart;
+        if(cart != null){
+            return new ResponseEntity<>(cart, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
