@@ -2,7 +2,9 @@ package com.ecom_project.shopify.dto;
 
 import com.ecom_project.shopify.model.Customer;
 import com.ecom_project.shopify.model.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Mapper {
 
     public CustomerDTO customerDTO(Customer customer){

@@ -1,5 +1,7 @@
 package com.ecom_project.shopify.controller;
 
+import com.ecom_project.shopify.dto.CustomerDTO;
+import com.ecom_project.shopify.dto.Mapper;
 import com.ecom_project.shopify.model.Customer;
 import com.ecom_project.shopify.repository.CustomerRepo;
 import com.ecom_project.shopify.service.CustomerService;
@@ -8,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,21 +20,30 @@ public class CustomerController {
     CustomerService customerService;
 
     @Autowired
-    CustomerRepo customerRepo;
+    Mapper mapper;
 
     //getAll
     @GetMapping("admin/customer/getAll")
-    public ResponseEntity<List<Customer>> getCustomers(){
+    public ResponseEntity<List<CustomerDTO>> getCustomers(){
         List<Customer> list = customerService.getAllCustomers();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        List<CustomerDTO> dtoList = new ArrayList<>();
+        for(Customer customer : list){
+            CustomerDTO dto = mapper.customerDTO(customer);
+            dtoList.add(dto);
+        }
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
     //get by id
     @GetMapping("admin/customer/getById/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable UUID id){
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable UUID id){
         Customer customer = customerService.getCustomerById(id);
+        CustomerDTO customerDTO = null;
+        if(customer != null) {
+             customerDTO = mapper.customerDTO(customer);
+        }
         if(customer != null){
-            return new ResponseEntity<>(customer,HttpStatus.OK);
+            return new ResponseEntity<>(customerDTO,HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
