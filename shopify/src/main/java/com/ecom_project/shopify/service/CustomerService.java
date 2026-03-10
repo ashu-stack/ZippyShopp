@@ -7,15 +7,20 @@ import com.ecom_project.shopify.repository.OrderRepo;
 import com.ecom_project.shopify.repository.PaymentRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class CustomerService {
+public class CustomerService implements UserDetailsService {
     @Autowired
     CustomerRepo customerRepo;
 
@@ -72,5 +77,10 @@ public class CustomerService {
 
     public void deleteCustomer(UUID id) {
         customerRepo.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return customerRepo.findByName(username).orElseThrow();
     }
 }
