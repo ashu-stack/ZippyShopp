@@ -1,6 +1,9 @@
 package com.ecom_project.shopify.controller;
 
 
+import com.ecom_project.shopify.dto.Mapper;
+import com.ecom_project.shopify.dto.ProductDTO;
+import com.ecom_project.shopify.model.Customer;
 import com.ecom_project.shopify.model.Product;
 import com.ecom_project.shopify.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +21,34 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    Mapper mapper;
+
     @RequestMapping("user/")
     public String greet(){
         return "Welcome to Shopify";
     }
 
     @GetMapping("user/product")
-    public ResponseEntity<List<Product>> getAllProducts(){
+    public ResponseEntity<List<ProductDTO>> getAllProducts(){
         List<Product> list =   productService.getAllProd();
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        for(Product product : list){
+            ProductDTO dto = mapper.productDTO(product);
+            productDTOS.add(dto);
+        }
 
-        return new ResponseEntity<>(list,HttpStatus.OK);
+        return new ResponseEntity<>(productDTOS,HttpStatus.OK);
     }
 
     @GetMapping("user/product/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable int id){
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable int id){
         Product product =  productService.getProdById(id);
-        if(product != null){
-            return new ResponseEntity<>(product, HttpStatus.OK);
+        ProductDTO dto = null;
+        if(product != null) {
+             dto = mapper.productDTO(product);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
