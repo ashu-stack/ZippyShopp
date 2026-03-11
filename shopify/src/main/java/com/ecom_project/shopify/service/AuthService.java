@@ -20,5 +20,7 @@ public class AuthService {
                new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(),loginRequestDto.getPassword())
        );
         Customer customer = (Customer)authentication.getPrincipal();
+        String token = "niwbfgksbc";
+        return new LoginResponseDto(token,customer.getId().toString());
     }
 }
