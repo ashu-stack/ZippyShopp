@@ -15,6 +15,8 @@ public class SignupRequestDto {
     @NotBlank
     private String username;
 
+    private String lastName;
+
     @Email
     @NotBlank
     private String email;

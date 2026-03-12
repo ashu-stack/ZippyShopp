@@ -3,12 +3,15 @@ package com.ecom_project.shopify.service;
 import com.ecom_project.shopify.dto.LoginRequestDto;
 import com.ecom_project.shopify.dto.LoginResponseDto;
 import com.ecom_project.shopify.dto.SignupRequestDto;
+import com.ecom_project.shopify.dto.SignupResponseDTO;
 import com.ecom_project.shopify.model.Customer;
+import com.ecom_project.shopify.repository.CustomerRepo;
 import com.ecom_project.shopify.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +20,8 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final AuthUtil authUtil;
+    private final CustomerRepo customerRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto){
 
@@ -28,7 +33,17 @@ public class AuthService {
         return new LoginResponseDto(token,customer.getId().toString());
     }
 
-    public SignupRequestDto signUp(LoginRequestDto signUpRequestDto) {
-        return null;
+    public SignupResponseDTO signUp(SignupRequestDto signUpRequestDto) {
+        Customer customer = customerRepo.findByEmail(signUpRequestDto.getEmail()).orElse(null);
+        if(customer != null) throw new IllegalArgumentException("User already exists");
+
+        Customer customer1 = customerRepo.save(Customer.builder().name(signUpRequestDto.getUsername())
+                        .lastName(signUpRequestDto.getLastName())
+                .email(signUpRequestDto.getEmail())
+                .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
+                .build());
+
+        return new SignupResponseDTO(customer1.getId(),customer1.getUsername());
+
     }
 }
