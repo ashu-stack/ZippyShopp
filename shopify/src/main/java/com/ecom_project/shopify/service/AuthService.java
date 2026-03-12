@@ -3,6 +3,7 @@ package com.ecom_project.shopify.service;
 import com.ecom_project.shopify.dto.LoginRequestDto;
 import com.ecom_project.shopify.dto.LoginResponseDto;
 import com.ecom_project.shopify.model.Customer;
+import com.ecom_project.shopify.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,13 +15,15 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final AuthenticationManager authenticationManager;
+    private final AuthUtil authUtil;
+
     public LoginResponseDto login(LoginRequestDto loginRequestDto){
 
        Authentication authentication =  authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(),loginRequestDto.getPassword())
        );
         Customer customer = (Customer)authentication.getPrincipal();
-        String token = "niwbfgksbc";
+        String token = authUtil.generateAccessToken(customer);
         return new LoginResponseDto(token,customer.getId().toString());
     }
 }
