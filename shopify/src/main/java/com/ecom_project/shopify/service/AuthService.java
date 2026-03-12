@@ -2,6 +2,7 @@ package com.ecom_project.shopify.service;
 
 import com.ecom_project.shopify.dto.LoginRequestDto;
 import com.ecom_project.shopify.dto.LoginResponseDto;
+import com.ecom_project.shopify.dto.SignupRequestDto;
 import com.ecom_project.shopify.model.Customer;
 import com.ecom_project.shopify.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,9 @@ public class AuthService {
         Customer customer = (Customer)authentication.getPrincipal();
         String token = authUtil.generateAccessToken(customer);
         return new LoginResponseDto(token,customer.getId().toString());
+    }
+
+    public SignupRequestDto signUp(LoginRequestDto signUpRequestDto) {
+        return null;
     }
 }

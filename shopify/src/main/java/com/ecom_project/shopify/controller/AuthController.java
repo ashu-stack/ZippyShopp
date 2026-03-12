@@ -2,6 +2,7 @@ package com.ecom_project.shopify.controller;
 
 import com.ecom_project.shopify.dto.LoginRequestDto;
 import com.ecom_project.shopify.dto.LoginResponseDto;
+import com.ecom_project.shopify.dto.SignupRequestDto;
 import com.ecom_project.shopify.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,4 +20,12 @@ public class AuthController {
        LoginResponseDto loginResponseDto = authService.login(loginRequestDto);
        return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
     }
+
+    @PostMapping("/signup")
+    public ResponseEntity<SignupRequestDto> signUp(LoginRequestDto signUpRequestDto){
+
+        return ResponseEntity.ok(authService.signUp(signUpRequestDto));
+    }
+
+
 }
