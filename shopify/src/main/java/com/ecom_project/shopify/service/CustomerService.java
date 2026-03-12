@@ -68,7 +68,7 @@ public class CustomerService implements UserDetailsService {
     public void addCustomer(Customer customer) {
         customerRepo.save(customer);
 
-        Customer customer1 = customerRepo.findByEmail(customer.getEmail());
+        Customer customer1 = (Customer) customerRepo.findByEmail(customer.getEmail()).orElse(null);
         Cart cart = Cart.builder().customerId(customer1.getId()).modeOfPayment("COD").productList(new ArrayList<>()).build();
         cartService.createCartForCustomer(cart);
 

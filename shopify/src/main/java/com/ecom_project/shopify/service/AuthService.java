@@ -8,6 +8,7 @@ import com.ecom_project.shopify.model.Customer;
 import com.ecom_project.shopify.repository.CustomerRepo;
 import com.ecom_project.shopify.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,8 +19,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
+    @Autowired
     private final AuthenticationManager authenticationManager;
+    @Autowired
     private final AuthUtil authUtil;
+
     private final CustomerRepo customerRepo;
     private final PasswordEncoder passwordEncoder;
 

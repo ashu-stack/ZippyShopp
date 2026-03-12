@@ -5,6 +5,7 @@ import com.ecom_project.shopify.dto.LoginResponseDto;
 import com.ecom_project.shopify.dto.SignupRequestDto;
 import com.ecom_project.shopify.dto.SignupResponseDTO;
 import com.ecom_project.shopify.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    @Autowired
     AuthService authService;
 
     @PostMapping("/login")
