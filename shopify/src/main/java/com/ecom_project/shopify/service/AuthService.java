@@ -34,7 +34,7 @@ public class AuthService {
        );
         Customer customer = (Customer)authentication.getPrincipal();
         String token = authUtil.generateAccessToken(customer);
-        return new LoginResponseDto(token,customer.getId().toString());
+        return new LoginResponseDto(token,customer.getUsername());
     }
 
     public SignupResponseDTO signUp(SignupRequestDto signUpRequestDto) {
