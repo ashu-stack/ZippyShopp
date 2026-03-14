@@ -1,6 +1,7 @@
 package com.ecom_project.shopify.util;
 
 import com.ecom_project.shopify.model.Customer;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -32,4 +33,13 @@ public class AuthUtil {
                 .compact();
     }
 
+    public String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(secretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.getSubject();
+    }
 }
