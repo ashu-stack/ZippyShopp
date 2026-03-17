@@ -2,6 +2,7 @@ package com.ecom_project.shopify.config;
 
 import com.ecom_project.shopify.util.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     public final PasswordEncoder passwordEncoder;
@@ -40,6 +42,11 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN"))
                 //.formLogin(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2.failureHandler(
+                        (request, response, exception) -> {
+                            log.error("Oauth error: {}" , exception.getMessage());
+                        }
+                ))
                 .httpBasic(Customizer.withDefaults()).build();
     }
 
