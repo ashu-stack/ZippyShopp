@@ -9,10 +9,12 @@ import com.ecom_project.shopify.repository.CustomerRepo;
 import com.ecom_project.shopify.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -49,5 +51,9 @@ public class AuthService {
 
         return new SignupResponseDTO(customer1.getId(),customer1.getUsername());
 
+    }
+
+    public ResponseEntity<LoginResponseDto> handleOAuth2LoginRequest(OAuth2User oAuth2User, String registrationId) {
+        return null;
     }
 }
