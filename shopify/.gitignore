@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 C:\Users\ashut\IdeaProjects\shopify\shopify\src\main\resources\application.properties
+C:\Users\ashut\IdeaProjects\shopify\shopify\src\main\resources\application.yml
 ### STS ###
 .apt_generated
 .classpath
