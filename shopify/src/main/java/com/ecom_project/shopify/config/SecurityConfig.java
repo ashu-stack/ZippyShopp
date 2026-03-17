@@ -28,6 +28,7 @@ public class SecurityConfig {
     public final PasswordEncoder passwordEncoder;
 
     public final JwtAuthFilter jwtAuthFilter;
+    public final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -46,7 +47,7 @@ public class SecurityConfig {
                         (request, response, exception) -> {
                             log.error("Oauth error: {}" , exception.getMessage());
                         }
-                ))
+                        ).successHandler(oAuth2SuccessHandler))
                 .httpBasic(Customizer.withDefaults()).build();
     }
 
