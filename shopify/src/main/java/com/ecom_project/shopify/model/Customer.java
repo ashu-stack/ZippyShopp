@@ -35,6 +35,11 @@ public class Customer implements UserDetails {
     private String email;
     private String password;
 
+    private String providerId;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProviderType providerType;
+
     @OneToMany(mappedBy = "customer",cascade = CascadeType.REMOVE)
     private List<Orders> ordersList;
 
