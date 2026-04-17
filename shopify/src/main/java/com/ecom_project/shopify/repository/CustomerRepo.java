@@ -1,6 +1,5 @@
 package com.ecom_project.shopify.repository;
 
-import com.ecom_project.shopify.model.AuthProviderType;
 import com.ecom_project.shopify.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,5 +13,5 @@ public interface CustomerRepo extends JpaRepository<Customer, UUID> {
         Optional<Customer> findByEmail(String email);
         Optional<Customer> findByName(String name);
 
-        Optional<Customer> findByProviderIdAndProviderType(String providerId, AuthProviderType providerType);
+        //Optional<Customer> findByProviderIdAndProviderType(String providerId, AuthProviderType providerType);
 }

@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Builder
-public class Customer implements UserDetails {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -37,8 +35,6 @@ public class Customer implements UserDetails {
 
     private String providerId;
 
-    @Enumerated(EnumType.STRING)
-    private AuthProviderType providerType;
 
     @OneToMany(mappedBy = "customer",cascade = CascadeType.REMOVE)
     private List<Orders> ordersList;
@@ -50,13 +46,5 @@ public class Customer implements UserDetails {
     @OneToOne
     private Cart cart;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
 
-    @Override
-    public String getUsername() {
-        return "";
-    }
 }
