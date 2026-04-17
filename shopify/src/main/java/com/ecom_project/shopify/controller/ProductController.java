@@ -25,7 +25,7 @@ public class ProductController {
     @Autowired
     Mapper mapper;
 
-    @RequestMapping("user/")
+    @RequestMapping("/")
     public String greet(){
         return "Welcome to Shopify";
     }
