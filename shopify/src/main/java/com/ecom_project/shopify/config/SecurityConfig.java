@@ -2,6 +2,7 @@ package com.ecom_project.shopify.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,11 +23,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.
-                authorizeHttpRequests(auth -> auth.anyRequest()
-                        .authenticated())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/").hasRole("ADMIN")
-                )
+        http
+                .authorizeHttpRequests(auth ->
+                        auth
+                                //.requestMatchers("/admin/**").hasRole("ADMIN")
+                        //.requestMatchers("/user/**").hasAnyRole("ADMIN","MANAGER")
+                        .anyRequest().authenticated())
+                //.authorizeHttpRequests(auth -> auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "MANAGER"))
+                //.authorizeHttpRequests(auth -> auth.anyRequest()
+                //.authenticated())
                 .formLogin(Customizer.withDefaults()) // Login page UI
                 .httpBasic(Customizer.withDefaults());
 
@@ -34,6 +39,7 @@ public class SecurityConfig {
     }
 
 //    @Bean
+//    @Primary
 //    public UserDetailsService userDetailsService(){
 //        UserDetails user1 = User.withUsername("ashu").
 //                                    password(passwordEncoder().encode("goat")).

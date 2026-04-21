@@ -35,7 +35,9 @@ public class Users implements UserDetails {
     Long id;
     String userName;
     String password;
-    Role role;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    List<Role> roles;
 
 
 }
