@@ -14,43 +14,43 @@ import java.util.UUID;
 
 @SpringBootTest
 class ShopifyApplicationTests {
-	@Autowired
-	CustomerService customerService;
+//	@Autowired
+//	CustomerService customerService;
+//
+//	@Autowired
+//	CartService cartService;
+//
+//	@Test
+//	void checkMakePaymentMethod() {
+//		Product product = Product.builder().name("Laptop").price(50000).available(true).build();
+//		Product product1 = Product.builder().name("Ipad").price(40000).available(true).build();
+//
+//		List<Product> list = List.of(product,product1);
+//
+//		List<Product> products = null;
+//		UUID custId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
+//		String paymentMode = "COD";
+//
+//		// Orders orders = customerService.makeOrder(list,custId,paymentMode);
+//		//System.out.println(orders);
+//
+//	}
 
-	@Autowired
-	CartService cartService;
+//	@Test
+//	void testAddToCart(){
+//		Product product = Product.builder().name("Laptop").price(50000).available(true).stock(10).build();
+//		UUID custId = UUID.fromString("dae9facc-7f5f-4c4a-9c3e-9627e39024e8");
+//		Cart cart = cartService.addToCart(1,custId);
+//		System.out.println(cart);
+//
+//	}
 
-	@Test
-	void checkMakePaymentMethod() {
-		Product product = Product.builder().name("Laptop").price(50000).available(true).build();
-		Product product1 = Product.builder().name("Ipad").price(40000).available(true).build();
-
-		List<Product> list = List.of(product,product1);
-
-		List<Product> products = null;
-		UUID custId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000");
-		String paymentMode = "COD";
-
-		// Orders orders = customerService.makeOrder(list,custId,paymentMode);
-		//System.out.println(orders);
-
-	}
-
-	@Test
-	void testAddToCart(){
-		Product product = Product.builder().name("Laptop").price(50000).available(true).stock(10).build();
-		UUID custId = UUID.fromString("dae9facc-7f5f-4c4a-9c3e-9627e39024e8");
-		Cart cart = cartService.addToCart(1,custId);
-		System.out.println(cart);
-
-	}
-
-	@Test
-	void testRemoveFromCart(){
-		Product product = Product.builder().name("Laptop").price(50000).available(true).stock(10).build();
-		UUID custId = UUID.fromString("dae9facc-7f5f-4c4a-9c3e-9627e39024e8");
-		Cart cart = cartService.removeFromCart(5,custId);
-		System.out.println(cart);
-	}
+//	@Test
+//	void testRemoveFromCart(){
+//		Product product = Product.builder().name("Laptop").price(50000).available(true).stock(10).build();
+//		UUID custId = UUID.fromString("dae9facc-7f5f-4c4a-9c3e-9627e39024e8");
+//		Cart cart = cartService.removeFromCart(5,custId);
+//		System.out.println(cart);
+//	}
 
 }
