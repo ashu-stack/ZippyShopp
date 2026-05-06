@@ -1,13 +1,17 @@
 package com.ecom_project.shopify.config;
 
+import com.ecom_project.shopify.service.JwtAuthFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.net.http.HttpRequest;
 
@@ -23,18 +28,26 @@ import java.net.http.HttpRequest;
 public class SecurityConfig {
 
     @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-                               // .requestMatchers("/admin/**").hasRole("ADMIN")
-                        //.requestMatchers("/user/**").hasAnyRole("ADMIN","MANAGER")
-                        .anyRequest().authenticated())
-                //.authorizeHttpRequests(auth -> auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "MANAGER"))
-                //.authorizeHttpRequests(auth -> auth.anyRequest()
-                //.authenticated())
-                .formLogin(Customizer.withDefaults()) // Login page UI
-                .httpBasic(Customizer.withDefaults());
+                        .requestMatchers("/auth/**").permitAll())
+                        //.anyRequest().authenticated())
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+                //.formLogin(Customizer.withDefaults()) // Login page UI
+                //.httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
