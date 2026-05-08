@@ -6,6 +6,7 @@ import com.ecom_project.shopify.dto.ProductDTO;
 import com.ecom_project.shopify.model.Customer;
 import com.ecom_project.shopify.model.Product;
 import com.ecom_project.shopify.service.ProductService;
+import com.ecom_project.shopify.util.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -30,9 +31,9 @@ public class ProductController {
         return "Welcome to Shopify";
     }
 
-    @GetMapping("user/product")
-    public ResponseEntity<List<ProductDTO>> getAllProducts(){
-        List<Product> list =   productService.getAllProd();
+    @GetMapping("user/product/category/{category}")
+    public ResponseEntity<List<ProductDTO>> getAllProducts(@PathVariable Category category){
+        List<Product> list =   productService.getAllProd(category);
         List<ProductDTO> productDTOS = new ArrayList<>();
         for(Product product : list){
             ProductDTO dto = mapper.productDTO(product);

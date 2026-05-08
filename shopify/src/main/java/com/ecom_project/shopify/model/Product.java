@@ -1,6 +1,7 @@
 package com.ecom_project.shopify.model;
 
 
+import com.ecom_project.shopify.util.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +38,10 @@ public class Product {
 
     @Column(nullable = false)
     private Integer stock;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @Column(length = 100)
     private String description;

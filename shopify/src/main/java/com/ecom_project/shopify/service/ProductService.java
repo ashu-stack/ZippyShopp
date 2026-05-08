@@ -4,6 +4,7 @@ import com.ecom_project.shopify.model.Product;
 import com.ecom_project.shopify.repository.ProductRepo;
 import java.util.List;
 
+import com.ecom_project.shopify.util.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ public class ProductService {
     ProductRepo productRepo;
 
 
-    public List<Product> getAllProd() {
-        return productRepo.findAll();
+    public List<Product> getAllProd(Category category) {
+        return productRepo.findByCategory(category);
     }
 
     public void addNewProd(Product product) {

@@ -2,6 +2,7 @@ package com.ecom_project.shopify.dto;
 
 import com.ecom_project.shopify.model.Customer;
 import com.ecom_project.shopify.model.Product;
+import com.ecom_project.shopify.util.Category;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,8 +21,9 @@ public class Mapper {
         Integer price = product.getPrice();
         boolean available = product.isAvailable();
         String description = product.getDescription();
+        Category category = product.getCategory();
 
-        return new ProductDTO(name,price,available,description);
+        return new ProductDTO(name,price,available,category, description);
 
     }
 

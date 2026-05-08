@@ -1,16 +1,28 @@
 package com.ecom_project.shopify.dto;
 
+import com.ecom_project.shopify.util.Category;
+
 public class ProductDTO {
     private String name;
     private Integer price;
     private boolean available;
+    private Category category;
     private String description;
 
-    public ProductDTO(String name, Integer price, boolean available, String description) {
+    public ProductDTO(String name, Integer price, boolean available, Category category, String description) {
         this.name = name;
         this.price = price;
         this.available = available;
+        this.category = category;
         this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getName() {
