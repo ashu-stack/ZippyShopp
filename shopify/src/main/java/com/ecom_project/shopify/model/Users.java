@@ -1,16 +1,20 @@
 package com.ecom_project.shopify.model;
 
+import com.ecom_project.shopify.util.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +25,8 @@ import java.util.UUID;
 public class Users implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return role.stream().map(roles ->
+                new SimpleGrantedAuthority("ROLE_" + roles.name())).collect(Collectors.toSet());
     }
 
     @Override
@@ -29,9 +34,6 @@ public class Users implements UserDetails {
         return this.userName;
     }
 
-    public static enum Role{
-        ADMIN,MANAGER, STAFF
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,7 +45,7 @@ public class Users implements UserDetails {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    List<Role> roles;
+    Set<Role> role;
 
 
 }

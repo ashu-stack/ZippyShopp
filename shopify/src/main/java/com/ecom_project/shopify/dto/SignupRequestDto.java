@@ -24,4 +24,6 @@ public class SignupRequestDto {
 
     @Size(min=12)
     private String confirmPassword;
+
+
 }

@@ -7,12 +7,17 @@ import com.ecom_project.shopify.dto.SignupRequestDto;
 import com.ecom_project.shopify.dto.SignupResponseDTO;
 import com.ecom_project.shopify.model.Users;
 import com.ecom_project.shopify.repository.UserRepository;
+import com.ecom_project.shopify.util.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 
 @Service
 public class AuthService {
@@ -55,6 +60,7 @@ public class AuthService {
                 .userName(signupRequestDto.getUsername())
                 .password(passwordEncoder.encode(signupRequestDto.getPassword()))
                 .email(signupRequestDto.getEmail())
+                .role(Collections.singleton(Role.STAFF))
                 .build());
 
         return new SignupResponseDTO(users.getId(), users.getUsername());
