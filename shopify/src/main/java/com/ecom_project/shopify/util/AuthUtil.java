@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -39,5 +40,25 @@ public class AuthUtil {
                 .getPayload();
 
         return claims.getSubject();
+    }
+
+    public boolean isTokenExpired(String token) {
+
+        Claims claims = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.getExpiration().before(new Date());
+    }
+
+    public boolean validateToken(String token, UserDetails userDetails) {
+
+        final String username = getUserNameFromToken(token);
+
+        return username != null
+                && username.equals(userDetails.getUsername())
+                && !isTokenExpired(token);
     }
 }
