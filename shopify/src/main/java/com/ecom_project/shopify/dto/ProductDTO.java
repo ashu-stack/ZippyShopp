@@ -2,7 +2,9 @@ package com.ecom_project.shopify.dto;
 
 import com.ecom_project.shopify.util.Category;
 
-public class ProductDTO {
+import java.io.Serializable;
+
+public class ProductDTO implements Serializable {
     private String name;
     private Integer price;
     private boolean available;

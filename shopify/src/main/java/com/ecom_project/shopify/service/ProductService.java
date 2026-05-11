@@ -1,7 +1,11 @@
 package com.ecom_project.shopify.service;
 
+import com.ecom_project.shopify.dto.Mapper;
+import com.ecom_project.shopify.dto.ProductDTO;
 import com.ecom_project.shopify.model.Product;
 import com.ecom_project.shopify.repository.ProductRepo;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ecom_project.shopify.util.Category;
@@ -16,13 +20,22 @@ public class ProductService {
     @Autowired
     ProductRepo productRepo;
 
-    private final String cacheName = "products";
+    @Autowired
+    Mapper mapper;
 
+//    @Autowired
+//    private RedisService redisService;
 
+    @Cacheable(cacheNames = "products", key = "#category")
+    public List<ProductDTO> getAllProd(Category category) {
 
-    @Cacheable(cacheNames = cacheName, key = "#category")
-    public List<Product> getAllProd(Category category) {
-        return productRepo.findByCategory(category);
+        List<Product> productList =  productRepo.findByCategory(category);
+        List<ProductDTO> dtos = new ArrayList<>();
+        for(Product product : productList){
+            ProductDTO dto = mapper.productDTO(product);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
 
@@ -30,16 +43,16 @@ public class ProductService {
         productRepo.save(product);
     }
 
-    @Cacheable(cacheNames = cacheName, key = "#id")
+    @Cacheable(cacheNames = "products", key = "#id")
     public Product getProdById(int id) {
-       return productRepo.findById(id).orElse(null);
+        return productRepo.findById(id).orElse(null);
     }
 
     public Product getProdByName(String name) {
         return productRepo.findByName(name);
     }
 
-    @CacheEvict(cacheNames = cacheName, key = "#id")
+    @CacheEvict(cacheNames = "products", key = "#id")
     public void deleteProdById(int id) {
         productRepo.deleteById(id);
     }

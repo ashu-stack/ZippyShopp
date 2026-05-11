@@ -8,6 +8,8 @@ import com.ecom_project.shopify.model.Product;
 import com.ecom_project.shopify.service.ProductService;
 import com.ecom_project.shopify.util.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +35,7 @@ public class ProductController {
 
     @GetMapping("user/product/category/{category}")
     public ResponseEntity<List<ProductDTO>> getAllProducts(@PathVariable Category category){
-        List<Product> list =   productService.getAllProd(category);
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        for(Product product : list){
-            ProductDTO dto = mapper.productDTO(product);
-            productDTOS.add(dto);
-        }
-
+        List<ProductDTO> productDTOS =   productService.getAllProd(category);
         return new ResponseEntity<>(productDTOS,HttpStatus.OK);
     }
 
@@ -63,6 +59,7 @@ public class ProductController {
     }
 
     @DeleteMapping("admin/product/{id}")
+
     public ResponseEntity deleteProduct(@PathVariable int id){
         productService.deleteProdById(id);
         return new ResponseEntity<>(HttpStatus.GONE);
