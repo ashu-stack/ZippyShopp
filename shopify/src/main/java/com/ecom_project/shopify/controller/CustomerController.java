@@ -25,24 +25,17 @@ public class CustomerController {
     //getAll
     @GetMapping("admin/customer/getAll")
     public ResponseEntity<List<CustomerDTO>> getCustomers(){
-        List<Customer> list = customerService.getAllCustomers();
-        List<CustomerDTO> dtoList = new ArrayList<>();
-        for(Customer customer : list){
-            CustomerDTO dto = mapper.customerDTO(customer);
-            dtoList.add(dto);
-        }
+        List<CustomerDTO> dtoList = customerService.getAllCustomers();
+
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
     //get by id
     @GetMapping("admin/customer/getById/{id}")
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable UUID id){
-        Customer customer = customerService.getCustomerById(id);
-        CustomerDTO customerDTO = null;
-        if(customer != null) {
-             customerDTO = mapper.customerDTO(customer);
-        }
-        if(customer != null){
+        CustomerDTO customerDTO = customerService.getCustomerById(id);
+
+        if(customerDTO != null) {
             return new ResponseEntity<>(customerDTO,HttpStatus.OK);
         }
         else{

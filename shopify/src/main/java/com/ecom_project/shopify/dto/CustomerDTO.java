@@ -1,6 +1,8 @@
 package com.ecom_project.shopify.dto;
 
-public class CustomerDTO {
+import java.io.Serializable;
+
+public class CustomerDTO implements Serializable {
     private String name;
     private String lastName;
     private String email;

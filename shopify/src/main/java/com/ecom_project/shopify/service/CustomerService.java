@@ -1,5 +1,7 @@
 package com.ecom_project.shopify.service;
 
+import com.ecom_project.shopify.dto.CustomerDTO;
+import com.ecom_project.shopify.dto.Mapper;
 import com.ecom_project.shopify.model.*;
 import com.ecom_project.shopify.repository.CartRepo;
 import com.ecom_project.shopify.repository.CustomerRepo;
@@ -8,6 +10,8 @@ import com.ecom_project.shopify.repository.PaymentRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -33,7 +37,8 @@ public class CustomerService  {
     @Autowired
     CartService cartService;
 
-
+    @Autowired
+    Mapper mapper;
 
     @Transactional
     public Orders makeOrder(Cart cart){
@@ -54,15 +59,26 @@ public class CustomerService  {
     }
 
 
-    public List<Customer> getAllCustomers() {
-       return customerRepo.findAll();
+    @Cacheable(cacheNames = "customers", key= "#result.name")
+    public List<CustomerDTO> getAllCustomers() {
+        List<Customer> list = customerRepo.findAll();
+        List<CustomerDTO> dtoList = new ArrayList<>();
+        for(Customer customer : list){
+            CustomerDTO dto = mapper.customerDTO(customer);
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
-    public Customer getCustomerById(UUID id) {
-        return (Customer) customerRepo.findById(id).orElse(null);
+    @Cacheable(cacheNames = "customer" , key = "#id")
+    public CustomerDTO getCustomerById(UUID id) {
+
+        Customer customer =  customerRepo.findById(id).orElse(null);
+        CustomerDTO dto = mapper.customerDTO(customer);
+        return dto;
     }
 
-    public void addCustomer(Customer customer) {
+    public void  addCustomer(Customer customer) {
         customerRepo.save(customer);
 
         Customer customer1 = (Customer) customerRepo.findByEmail(customer.getEmail()).orElse(null);
@@ -71,8 +87,9 @@ public class CustomerService  {
 
     }
 
-
+    @CacheEvict(cacheNames = "products", key = "#id")
     public void deleteCustomer(UUID id) {
+
         customerRepo.deleteById(id);
     }
 
