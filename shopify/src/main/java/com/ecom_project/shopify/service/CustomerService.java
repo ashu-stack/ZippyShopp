@@ -79,6 +79,11 @@ public class CustomerService  {
     }
 
     public void  addCustomer(Customer customer) {
+
+        customer.setOrdersList(new ArrayList<>());
+        customer.setPayments(new ArrayList<>());
+
+
         customerRepo.save(customer);
 
         Customer customer1 = (Customer) customerRepo.findByEmail(customer.getEmail()).orElse(null);

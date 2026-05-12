@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController()
 public class OrderController {
@@ -32,6 +33,12 @@ public class OrderController {
         else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("user/orders/getForCust/{uuid}")
+    public ResponseEntity<List<Orders>> getOrdersForCustomer(@PathVariable UUID uuid){
+        List<Orders> list = orderService.getOrdersForCustomer(uuid);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     // put

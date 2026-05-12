@@ -1,5 +1,7 @@
 package com.ecom_project.shopify.service;
 
+import com.ecom_project.shopify.model.Customer;
+import com.ecom_project.shopify.repository.CustomerRepo;
 import com.ecom_project.shopify.util.AuthUtil;
 import com.ecom_project.shopify.dto.LoginRequestDto;
 import com.ecom_project.shopify.dto.LoginResponseDto;
@@ -34,6 +36,12 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
     public LoginResponseDto login(LoginRequestDto loginRequestDto){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword())
@@ -62,6 +70,11 @@ public class AuthService {
                 .email(signupRequestDto.getEmail())
                 .role(Collections.singleton(Role.STAFF))
                 .build());
+
+         Customer customer = Customer.builder().name(signupRequestDto.getUsername()).email(signupRequestDto.getEmail())
+                .password(signupRequestDto.getPassword()).build();
+
+         customerService.addCustomer(customer);
 
         return new SignupResponseDTO(users.getId(), users.getUsername());
 
